@@ -16,11 +16,18 @@ flags:
 ```shell
 # macos
 $ clang guid.c -oguid
+# or
+$ gcc   guid.c -oguid
 
 # linux
 $ clang guid.c -oguid -luuid
 # or
 $ gcc   guid.c -oguid -luuid
+
+# windows
+$ clang guid.c -oguid.exe -luuid_mingw -lrpcrt4
+# or
+$ gcc   guid.c -oguid.exe -luuid_mingw -lrpcrt4
 ```
 
 ### examples
