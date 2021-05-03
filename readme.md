@@ -1,19 +1,23 @@
-## guid
+# guid
 
-```shell
-guid - generate guid for uefi development. @efikarl@yeah.net
+> Original source: https://github.com/firmwhere/guid **(current mod for personal use only)**
+MinGW compatible libuuid : https://github.com/cloudbase/libuuid
+
+```
+guid (mod) - generate guid for uefi development. @efikarl@yeah.net
 
 options:
     -g, --guid <guid>      generate guid from <guid>
 
 flags:
-    -h  --help             output help info
-    -u, --upper            output uppercase result, or lowercase
+    -h, --help             output help info
+    -l, --lowercase        output lowercase result
+    -s, --standard         output guid standard text result only
 ```
 
-### build
+## build
 
-```shell
+```sh
 # macos
 $ clang guid.c -oguid
 # or
@@ -25,79 +29,29 @@ $ clang guid.c -oguid -luuid
 $ gcc   guid.c -oguid -luuid
 
 # windows
-$ clang guid.c -oguid.exe -luuid_mingw -lrpcrt4
+$ clang guid.c -oguid.exe -luuid
 # or
-$ gcc   guid.c -oguid.exe -luuid_mingw -lrpcrt4
+$ gcc   guid.c -oguid.exe -luuid
 ```
 
-### examples
-
-```shell
-$ ./guid -g 00112233-4455-6677-8899-AABBCCDDEEFF
-
-[guid.std.text] 33221100-5544-7766-8899-aabbccddeeff
-  [uefi.memmap] 00112233-4455-6677-8899-aabbccddeeff
-  [ipmi.memmap] aabbccddeeff-8899-6677-4455-00112233
-
-[uefi.guid.struct]
-{ 0x33221100, 0x5544, 0x7766, { 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff } }
-
-[uefi.guid.define]
-#define GUID \
-  { \
-    0x33221100, 0x5544, 0x7766, { 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff } \
-  }
-extern EFI_GUID gGuid;
-
-$ ./guid --guid 00112233-4455-6677-8899-AABBCCDDEEFF
-
-[guid.std.text] 33221100-5544-7766-8899-aabbccddeeff
-  [uefi.memmap] 00112233-4455-6677-8899-aabbccddeeff
-  [ipmi.memmap] aabbccddeeff-8899-6677-4455-00112233
-
-[uefi.guid.struct]
-{ 0x33221100, 0x5544, 0x7766, { 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff } }
-
-[uefi.guid.define]
-#define GUID \
-  { \
-    0x33221100, 0x5544, 0x7766, { 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff } \
-  }
-extern EFI_GUID gGuid;
+## examples
 
 ```
-
-```shell
 $ ./guid
 
-[guid.std.text] 6bf30348-d2e4-1744-81a1-53c3d00b690b
-  [uefi.memmap] 4803f36b-e4d2-4417-81a1-53c3d00b690b
-  [ipmi.memmap] 53c3d00b690b-81a1-4417-e4d2-4803f36b
+[[ DSC, DEC, INF ]]
 
-[uefi.guid.struct]
-{ 0x6bf30348, 0xd2e4, 0x1744, { 0x81, 0xa1, 0x53, 0xc3, 0xd0, 0x0b, 0x69, 0x0b } }
+BE21692E-AC35-11EB-AA1F-1FEA6618DD97
 
-[uefi.guid.define]
-#define GUID \
-  { \
-    0x6bf30348, 0xd2e4, 0x1744, { 0x81, 0xa1, 0x53, 0xc3, 0xd0, 0x0b, 0x69, 0x0b } \
-  }
-extern EFI_GUID gGuid;
+[[ DEC ]]
 
-$ ./guid --upper
+## Include/Pkg.h
+gNameGuid = { 0xBE21692E, 0xAC35, 0x11EB, { 0xAA, 0x1F, 0x1F, 0xEA, 0x66, 0x18, 0xDD, 0x97 } }
 
-[guid.std.text] C02AE3B1-DB8F-7B42-A4ED-9F57714B705F
-  [uefi.memmap] B1E32AC0-8FDB-427B-A4ED-9F57714B705F
-  [ipmi.memmap] 9F57714B705F-A4ED-427B-8FDB-B1E32AC0
+[[ HEADER ]]
 
-[uefi.guid.struct]
-{ 0xC02AE3B1, 0xDB8F, 0x7B42, { 0xA4, 0xED, 0x9F, 0x57, 0x71, 0x4B, 0x70, 0x5F } }
+#define NAME_GUID \
+  { 0xBE21692E, 0xAC35, 0x11EB, { 0xAA, 0x1F, 0x1F, 0xEA, 0x66, 0x18, 0xDD, 0x97 } }
 
-[uefi.guid.define]
-#define GUID \
-  { \
-    0xC02AE3B1, 0xDB8F, 0x7B42, { 0xA4, 0xED, 0x9F, 0x57, 0x71, 0x4B, 0x70, 0x5F } \
-  }
-extern EFI_GUID gGuid;
-
+extern NAME_GUID gNameGuid;
 ```
